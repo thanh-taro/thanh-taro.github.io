@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Leaflet ImageOverlay Transform</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <style>
     body {
       width: 100%;
@@ -55,13 +55,13 @@
   <div id="map"></div>
   <div class="controls">
     <span>Opacity</span> <div id="opacity" class="slider"></div>
-    <span>Altitudes</span> <div id="altitudes" class="slider"></div>
+    <span>Altitudes</span> <div id="filters" class="slider"></div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-  <script src="lib/L.TileLayer.HeatMap.min.js"></script>
+  <script src="lib/L.HeatMap.min.js"></script>
   <script>
     $(document).ready(function () {
       var map = L.map('map', {
@@ -70,10 +70,10 @@
       });
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-      var altitudes = [0, 255];
+      var filters = [0, 255];
       var opacity = 1;
       var heightMap = L.heatMap('tiles/{z}/{x}/{y}.png', {
-        altitudes: altitudes,
+        filters: filters,
         opacity: opacity,
         useCanvas: true,
         minZoom: 15,
@@ -92,15 +92,15 @@
         }
       });
 
-      $('#altitudes').slider({
+      $('#filters').slider({
         range: true,
-        values: altitudes,
+        values: filters,
         min: 0,
         max: 255,
         step: 1,
         slide: function (e, ui) {
           altitudes = ui.values;
-          heightMap.setAltitudes(altitudes);
+          heightMap.setFilters(altitudes);
         }
       });
     });
