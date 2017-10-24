@@ -318,6 +318,9 @@
                 return end();
             }
             var hour = hours[current - 1];
+            (new Howl({
+              src: ['audio/' + hour + '.mp3']
+            })).play();
             setTime(hour, 0);
             drawAnswers(hour);
         }
@@ -334,7 +337,7 @@
                 self.addClass('correct');
                 setTimeout(function () {
                     play();
-                }, 3500);
+                }, 4500);
             } else {
                 wrongSound.play();
                 self.addClass('wrong');
@@ -343,7 +346,9 @@
 
         shuffle(hours);
         startSound.play();
-        play();
+        setTimeout(function () {
+          play();
+        }, 4500);
       });
     </script>
   </body>
