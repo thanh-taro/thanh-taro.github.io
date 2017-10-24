@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Clock</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <style>
+      body {
+        background: #ECEFF1;
+      }
+      #clock {
+        float: left;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        border: 1px solid #000;
+        margin-right: 30px;
+
+        position: relative;
+      }
+      #clock-inner {
+        width: 330px;
+        height: 330px;
+        border-radius: 50%;
+        border: 10px dotted #64B5F6;
+        margin: 75px auto;
+      }
+      .clock-middle {
+        width: 30px;
+        height: 30px;
+        background-color: #aaa;
+        border-radius: 50%;
+
+        position: absolute;
+        top: 235px;
+        left: 235px;
+      }
+      .hour-hole {
+        width: 50px;
+        height: 50px;
+        background-color: #aaa;
+        border-radius: 50%;
+
+        position: absolute;
+      }
+      .hour-hole.hour-12 {
+        top: 10px;
+        left: 225px;
+      }
+      .hour-hole.hour-11 {
+        left: 120px;
+        top: 45px;
+      }
+      .hour-hole.hour-10 {
+        left: 45px;
+        top: 125px;
+      }
+      .hour-hole.hour-9 {
+        left: 10px;
+        top: 225px;
+      }
+      .hour-hole.hour-8 {
+        left: 45px;
+        bottom: 125px;
+      }
+      .hour-hole.hour-7 {
+        left: 120px;
+        bottom: 45px;
+      }
+      .hour-hole.hour-6 {
+        bottom: 10px;
+        left: 225px;
+      }
+      .hour-hole.hour-5 {
+        right: 120px;
+        bottom: 45px;
+      }
+      .hour-hole.hour-4 {
+        right: 45px;
+        bottom: 125px;
+      }
+      .hour-hole.hour-3 {
+        right: 10px;
+        top: 225px;
+      }
+      .hour-hole.hour-2 {
+        right: 45px;
+        top: 125px;
+      }
+      .hour-hole.hour-1 {
+        right: 120px;
+        top: 45px;
+      }
+      #hours {
+        float: left;
+        width: 240px;
+        position: relative;
+      }
+      .hour-number {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 40px;
+        font-weight: bold;
+        background-color: #fff;
+        border-radius: 50%;
+        color: #C70039;
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+
+        position: absolute;
+      }
+      .hour-number.hour-12 {
+        top: 240px;
+        left: 160px;
+      }
+      .hour-number.hour-11 {
+        top: 240px;
+        left: 80px;
+      }
+      .hour-number.hour-10 {
+        top: 240px;
+        left: 0;
+      }
+      .hour-number.hour-9 {
+        top: 160px;
+        left: 160px;
+      }
+      .hour-number.hour-8 {
+        top: 160px;
+        left: 80px;
+      }
+      .hour-number.hour-7 {
+        top: 160px;
+        left: 0;
+      }
+      .hour-number.hour-6 {
+        top: 80px;
+        left: 160px;
+      }
+      .hour-number.hour-5 {
+        top: 80px;
+        left: 80px;
+      }
+      .hour-number.hour-4 {
+        top: 80px;
+        left: 0;
+      }
+      .hour-number.hour-3 {
+        top: 0;
+        left: 160px;
+      }
+      .hour-number.hour-2 {
+        top: 0;
+        left: 80px;
+      }
+      .hour-number.hour-1 {
+        top: 0;
+        left: 0;
+      }
+  </style>
+  <body>
+    <div id="clock">
+        <div id="clock-inner"></div>
+        <div class="hour-hole hour-12"></div>
+        <div class="hour-hole hour-11"></div>
+        <div class="hour-hole hour-10"></div>
+        <div class="hour-hole hour-9"></div>
+        <div class="hour-hole hour-8"></div>
+        <div class="hour-hole hour-7"></div>
+        <div class="hour-hole hour-6"></div>
+        <div class="hour-hole hour-5"></div>
+        <div class="hour-hole hour-4"></div>
+        <div class="hour-hole hour-3"></div>
+        <div class="hour-hole hour-2"></div>
+        <div class="hour-hole hour-1"></div>
+        <div class="clock-middle"></div>
+    </div>
+
+    <div id="hours">
+        <div class="hour-number hour-1" data-number="1">1</div>
+        <div class="hour-number hour-2" data-number="2">2</div>
+        <div class="hour-number hour-3" data-number="3">3</div>
+        <div class="hour-number hour-4" data-number="4">4</div>
+        <div class="hour-number hour-5" data-number="5">5</div>
+        <div class="hour-number hour-6" data-number="6">6</div>
+        <div class="hour-number hour-7" data-number="7">7</div>
+        <div class="hour-number hour-8" data-number="8">8</div>
+        <div class="hour-number hour-9" data-number="9">9</div>
+        <div class="hour-number hour-10" data-number="10">10</div>
+        <div class="hour-number hour-11" data-number="11">11</div>
+        <div class="hour-number hour-12" data-number="12">12</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="js/howler.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var clock = document.getElementById('clock');
+        var bounds = 30;
+        $('.hour-number').draggable({
+          start: function (e, ui) {
+            pickSound.play();
+          },
+          stop: function (e, ui) {
+            var handler = ui.helper;
+            var hourNumber = handler.data('number');
+            var currentPosition = ui.position;
+            currentPosition.left += 530;
+            var target = $('.hour-hole.hour-' + hourNumber);
+            var targetPosition = target.position();
+            if (currentPosition.top >= targetPosition.top - bounds && currentPosition.top <= targetPosition.top + bounds
+              && currentPosition.left >= targetPosition.left - bounds && currentPosition.left <= targetPosition.left + bounds) {
+                handler.css({
+                  top: targetPosition.top,
+                  left: targetPosition.left - 530,
+                  bottom: null,
+                  right: null,
+                });
+                handler.attr('data-correct', true);
+              correctSound.play();
+            } else {
+              if (currentPosition.left - 530 < 0) {
+                wrongSound.play();
+              }
+              handler.removeAttr('style');
+            }
+          }
+        });
+
+        var pickSound = new Howl({
+          src: ['audio/pick.wav']
+        });
+        var wrongSound = new Howl({
+          src: ['audio/wrong.wav']
+        });
+        var correctSound = new Howl({
+          src: ['audio/correct.wav']
+        });
+      });
+    </script>
+  </body>
+</html>
