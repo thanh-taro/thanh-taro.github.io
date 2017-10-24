@@ -213,8 +213,20 @@
       .answer.wrong {
           background-image: url(image/wrong.png);
       }
+      #confirm {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 100;
+        text-align: center;
+        line-height: 300px;
+      }
   </style>
   <body>
+    <div id="confirm">Nhấp chuột để bắt đầu</div>
     <div id="clock">
         <div class="hour-hole hour-12">12</div>
         <div class="hour-hole hour-11">11</div>
@@ -322,7 +334,7 @@
             panel.html(html);
         }
 
-        function play() {
+        function next() {
             if (++current > 12) {
                 return end();
             }
@@ -343,7 +355,7 @@
                 correctSound.play();
                 self.addClass('correct');
                 setTimeout(function () {
-                    play();
+                  next();
                 }, 4500);
             } else {
                 wrongSound.play();
@@ -353,10 +365,18 @@
 
         shuffle(hours);
         shuffle(minutes);
-        startSound.play();
-        setTimeout(function () {
+        
+        function play() {
+          startSound.play();
+          setTimeout(function () {
+            next();
+          }, 9500);
+        }
+
+        $('#confirm').click(function () {
+          $(this).hide();
           play();
-        }, 4500);
+        });
       });
     </script>
   </body>

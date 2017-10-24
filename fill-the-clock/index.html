@@ -187,8 +187,20 @@
         left: 80px;
         cursor: pointer;
       }
+      #confirm {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 100;
+        text-align: center;
+        line-height: 300px;
+      }
   </style>
   <body>
+    <div id="confirm">Nhấp chuột để bắt đầu</div>
     <div id="clock">
         <div id="clock-inner"></div>
         <div class="hour-hole hour-12"></div>
@@ -339,7 +351,14 @@
           }
         }
 
-        startSound.play();
+        function play() {
+          startSound.play();
+        }
+
+        $('#confirm').click(function () {
+          $(this).hide();
+          play();
+        });
       });
     </script>
   </body>
