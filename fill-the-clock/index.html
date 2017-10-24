@@ -9,17 +9,20 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <style>
       body {
-        background: #ECEFF1;
+        background: #ECEFF1 url(image/bg.jpg);
       }
       #clock {
         float: left;
         width: 500px;
         height: 500px;
         border-radius: 50%;
-        border: 1px solid #000;
+        border: 1px solid #64B5F6;
         margin-right: 30px;
+        background-color: #ffffff;
 
         position: relative;
+        margin-top: 100px;
+        margin-left: 100px;
       }
       #clock-inner {
         width: 330px;
@@ -98,6 +101,7 @@
         float: left;
         width: 240px;
         position: relative;
+        margin-top: 100px;
       }
       .hour-number {
         width: 50px;
@@ -168,6 +172,20 @@
         top: 0;
         left: 0;
       }
+      .long-hand {
+        height: 200px;
+        position: absolute;
+        top: 360px;
+        left: 0;
+        cursor: pointer;
+      }
+      .short-hand {
+        width: 120px;
+        position: absolute;
+        top: 360px;
+        left: 80px;
+        cursor: pointer;
+      }
   </style>
   <body>
     <div id="clock">
@@ -200,6 +218,8 @@
         <div class="hour-number hour-10" data-number="10">10</div>
         <div class="hour-number hour-11" data-number="11">11</div>
         <div class="hour-number hour-12" data-number="12">12</div>
+        <img class="long-hand" src="image/long.png"></img>
+        <img class="short-hand" src="image/short.png"></img>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -209,10 +229,10 @@
       $(document).ready(function () {
         var clock = document.getElementById('clock');
         var bounds = 30;
+        $('.hour-number').on('mousedown', function () {
+          pickSound.play();
+        });
         $('.hour-number').draggable({
-          start: function (e, ui) {
-            pickSound.play();
-          },
           stop: function (e, ui) {
             var handler = ui.helper;
             var hourNumber = handler.data('number');
@@ -223,8 +243,8 @@
             if (currentPosition.top >= targetPosition.top - bounds && currentPosition.top <= targetPosition.top + bounds
               && currentPosition.left >= targetPosition.left - bounds && currentPosition.left <= targetPosition.left + bounds) {
                 handler.css({
-                  top: targetPosition.top,
-                  left: targetPosition.left - 530,
+                  top: targetPosition.top + 1,
+                  left: targetPosition.left - 530 - 1,
                   bottom: null,
                   right: null,
                 });
@@ -236,6 +256,67 @@
               }
               handler.removeAttr('style');
             }
+            checkDone();
+          }
+        });
+
+        $('.long-hand').draggable({
+          stop: function (e, ui) {
+            var handler = ui.helper;
+            var hourNumber = handler.data('number');
+            var currentPosition = ui.position;
+            currentPosition.left += 530;
+            currentPosition.top += 200;
+            var targetPosition = {
+              top: 235,
+              left: 235
+            };
+            if (currentPosition.top >= targetPosition.top - bounds && currentPosition.top <= targetPosition.top + bounds
+              && currentPosition.left >= targetPosition.left - bounds && currentPosition.left <= targetPosition.left + bounds) {
+                handler.css({
+                  top: targetPosition.top - 175 + 1,
+                  left: targetPosition.left - 530 - 1,
+                  bottom: null,
+                  right: null,
+                });
+                handler.attr('data-correct', true);
+              correctSound.play();
+            } else {
+              if (currentPosition.left - 530 < 0) {
+                wrongSound.play();
+              }
+              handler.removeAttr('style');
+            }
+            checkDone();
+          }
+        });
+        $('.short-hand').draggable({
+          stop: function (e, ui) {
+            var handler = ui.helper;
+            var hourNumber = handler.data('number');
+            var currentPosition = ui.position;
+            currentPosition.left += 530 + 120;
+            var targetPosition = {
+              top: 235,
+              left: 235
+            };
+            if (currentPosition.top >= targetPosition.top - bounds && currentPosition.top <= targetPosition.top + bounds
+              && currentPosition.left >= targetPosition.left - bounds && currentPosition.left <= targetPosition.left + bounds) {
+                handler.css({
+                  top: targetPosition.top + 8,
+                  left: targetPosition.left - 530 - 120 + 20,
+                  bottom: null,
+                  right: null,
+                });
+                handler.attr('data-correct', true);
+              correctSound.play();
+            } else {
+              if (currentPosition.left - 530 < 0) {
+                wrongSound.play();
+              }
+              handler.removeAttr('style');
+            }
+            checkDone();
           }
         });
 
@@ -248,6 +329,20 @@
         var correctSound = new Howl({
           src: ['audio/correct.mp3']
         });
+        var startSound = new Howl({
+          src: ['audio/start.mp3']
+        });
+        var endSound = new Howl({
+          src: ['audio/end.mp3']
+        });
+
+        function checkDone() {
+          if ($('.hour-number[data-correct=true').length === 12 && $('.long-hand[data-correct=true').length === 1 && $('.short-hand[data-correct=true').length === 1) {
+            endSound.play();
+          }
+        }
+
+        startSound.play();
       });
     </script>
   </body>
