@@ -230,9 +230,6 @@
       $(document).ready(function () {
         var clock = document.getElementById('clock');
         var bounds = 30;
-        $('.hour-number').on('mousedown', function () {
-          pickSound.play();
-        });
         $('.hour-number').draggable({
           stop: function (e, ui) {
             var handler = ui.helper;
@@ -321,9 +318,6 @@
           }
         });
 
-        var pickSound = new Howl({
-          src: ['audio/pick.mp3']
-        });
         var wrongSound = new Howl({
           src: ['audio/wrong.mp3']
         });
@@ -339,7 +333,9 @@
 
         function checkDone() {
           if ($('.hour-number[data-correct=true').length === 12 && $('.long-hand[data-correct=true').length === 1 && $('.short-hand[data-correct=true').length === 1) {
-            endSound.play();
+            setTimeout(function () {
+              endSound.play();
+            }, 3500);
           }
         }
 

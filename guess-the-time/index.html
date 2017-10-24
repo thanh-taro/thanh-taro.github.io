@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Clock</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <style>
+      body {
+        background: #ECEFF1 url(image/bg.jpg);
+        background-repeat: repeat;
+      }
+      #clock {
+        float: left;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        border: 1px solid #64B5F6;
+        background-color: #ffffff;
+
+        position: relative;
+        margin-top: 20px;
+        margin-left: 100px;
+        margin-right: 120px;
+      }
+      .clock-middle {
+        width: 30px;
+        height: 30px;
+        background-color: #aaa;
+        border-radius: 50%;
+
+        position: absolute;
+        top: 235px;
+        left: 235px;
+      }
+      .hour-hole {
+        width: 50px;
+        height: 50px;
+        background-color: #ffffff;
+        border-radius: 50%;
+
+        position: absolute;
+        color: #C70039;
+        font-size: 40px;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+        -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+      }
+      .hour-hole.hour-12 {
+        top: 10px;
+        left: 225px;
+      }
+      .hour-hole.hour-11 {
+        left: 120px;
+        top: 45px;
+      }
+      .hour-hole.hour-10 {
+        left: 45px;
+        top: 125px;
+      }
+      .hour-hole.hour-9 {
+        left: 10px;
+        top: 225px;
+      }
+      .hour-hole.hour-8 {
+        left: 45px;
+        bottom: 125px;
+      }
+      .hour-hole.hour-7 {
+        left: 120px;
+        bottom: 45px;
+      }
+      .hour-hole.hour-6 {
+        bottom: 10px;
+        left: 225px;
+      }
+      .hour-hole.hour-5 {
+        right: 120px;
+        bottom: 45px;
+      }
+      .hour-hole.hour-4 {
+        right: 45px;
+        bottom: 125px;
+      }
+      .hour-hole.hour-3 {
+        right: 10px;
+        top: 225px;
+      }
+      .hour-hole.hour-2 {
+        right: 45px;
+        top: 125px;
+      }
+      .hour-hole.hour-1 {
+        right: 120px;
+        top: 45px;
+      }
+      .minute-hole {
+          color: #64B5F6;
+          font-weight: bold;
+          font-size: 32px;
+          position: absolute;
+          text-align: center;
+          width: 50px;
+          line-height: 50px;
+      }
+      .minute-hole.minute-0 {
+        top: 70px;
+        left: 225px;
+      }
+      .minute-hole.minute-5 {
+        top: 90px;
+        left: 310px;
+      }
+      .minute-hole.minute-10 {
+        top: 145px;
+        left: 350px;
+      }
+      .minute-hole.minute-15 {
+        right: 70px;
+        top: 225px;
+      }
+      .minute-hole.minute-20 {
+        bottom: 145px;
+        left: 350px;
+      }
+      .minute-hole.minute-25 {
+        bottom: 90px;
+        left: 310px;
+      }
+      .minute-hole.minute-30 {
+        bottom: 70px;
+        left: 225px;
+      }
+      .minute-hole.minute-35 {
+        bottom: 90px;
+        right: 310px;
+      }
+      .minute-hole.minute-40 {
+        bottom: 145px;
+        right: 350px;
+      }
+      .minute-hole.minute-45 {
+        left: 70px;
+        top: 225px;
+      }
+      .minute-hole.minute-50 {
+        top: 145px;
+        right: 350px;
+      }
+      .minute-hole.minute-55 {
+        top: 90px;
+        right: 310px;
+      }
+      .clock-hand {
+          position: absolute;
+        -moz-transition: all 1s ease;
+        -webkit-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 1s ease;
+      }
+      .clock-hand.short {
+          height: 120px;
+          top: 135px;
+          left: 240px;
+          transform-origin: 9px 115px;
+      }
+      .clock-hand.long {
+          height: 200px;
+          top: 60px;
+          left: 234px;
+          transform-origin: 15px 190px;
+      }
+      #panel {
+          float: left;
+          margin-top: 30px;
+      }
+      .answer {
+          width: 150px;
+          height: 50px;
+          padding: 15px;
+          background-color: #ffffff;
+          background-repeat: no-repeat;
+            background-position: 10px;
+            background-size: 40px;
+          margin-bottom: 50px;
+          text-align: center;
+          line-height: 50px;
+          font-size: 32px;
+          border-radius: 10px;
+          box-shadow: 0 0.5px 0 0 #ffffff inset, 0 1px 2px 0 #B3B3B3;
+          cursor: pointer;
+          -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+      }
+      .answer:hover {
+          background-color: #B3E5FC;
+      }
+      .answer.correct {
+          background-image: url(image/correct.png);
+      }
+      .answer.wrong {
+          background-image: url(image/wrong.png);
+      }
+  </style>
+  <body>
+    <div id="clock">
+        <div class="hour-hole hour-12">12</div>
+        <div class="hour-hole hour-11">11</div>
+        <div class="hour-hole hour-10">10</div>
+        <div class="hour-hole hour-9">9</div>
+        <div class="hour-hole hour-8">8</div>
+        <div class="hour-hole hour-7">7</div>
+        <div class="hour-hole hour-6">6</div>
+        <div class="hour-hole hour-5">5</div>
+        <div class="hour-hole hour-4">4</div>
+        <div class="hour-hole hour-3">3</div>
+        <div class="hour-hole hour-2">2</div>
+        <div class="hour-hole hour-1">1</div>
+        <div class="minute-hole minute-0">0</div>
+        <div class="minute-hole minute-5">5</div>
+        <div class="minute-hole minute-10">10</div>
+        <div class="minute-hole minute-15">15</div>
+        <div class="minute-hole minute-20">20</div>
+        <div class="minute-hole minute-25">25</div>
+        <div class="minute-hole minute-30">30</div>
+        <div class="minute-hole minute-35">35</div>
+        <div class="minute-hole minute-40">40</div>
+        <div class="minute-hole minute-45">45</div>
+        <div class="minute-hole minute-50">50</div>
+        <div class="minute-hole minute-55">55</div>
+        <div class="clock-middle"></div>
+        <img class="clock-hand long" src="image/long.png"></img>
+        <img class="clock-hand short" src="image/short.png"></img>
+    </div>
+
+    <div id="panel"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="js/howler.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var clock = $('#clock');
+        var panel = $('#panel');
+        var shortHand = $('.clock-hand.short');
+        var longHand = $('.clock-hand.long');
+        var hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        var current = 0;
+
+        var wrongSound = new Howl({
+          src: ['audio/wrong.mp3']
+        });
+        var correctSound = new Howl({
+          src: ['audio/correct.mp3']
+        });
+        var startSound = new Howl({
+          src: ['audio/start.mp3']
+        });
+        var endSound = new Howl({
+          src: ['audio/end.mp3']
+        });
+
+        function setTime(hour, minute) {
+            var hourDeg = hour/12 * 360;
+            var minuteDeg = minute/60 * 360;
+            shortHand.css({
+                transform: 'rotate(' + hourDeg + 'deg)'
+            });
+            longHand.css({
+                transform: 'rotate(' + minuteDeg + 'deg)'
+            });
+        }
+
+        function shuffle(a) {
+            var j, x, i;
+            for (i = a.length - 1; i > 0; i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                x = a[i];
+                a[i] = a[j];
+                a[j] = x;
+            }
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function drawAnswers(hour) {
+            var html = '';
+            var correctIndex = getRandomInt(0, 1000) % 4;
+            for (var i = 0; i < 4; i++) {
+                if (i === correctIndex) {
+                    html += '<div class="answer right">' + hour + ':00</div>';
+                } else {
+                    var h = hour;
+                    while (h === hour) {
+                        h = getRandomInt(1, 1000) % 12 + 1;
+                    }
+                    html += '<div class="answer">' + h + ':00</div>';
+                }
+            }
+            panel.html(html);
+        }
+
+        function play() {
+            if (++current > 12) {
+                return end();
+            }
+            var hour = hours[current - 1];
+            setTime(hour, 0);
+            drawAnswers(hour);
+        }
+
+        function end() {
+            panel.html(null);
+            endSound.play();
+        }
+
+        panel.on('click', '.answer', function () {
+            var self = $(this);
+            if (self.hasClass('right')) {
+                correctSound.play();
+                self.addClass('correct');
+                setTimeout(function () {
+                    play();
+                }, 3500);
+            } else {
+                wrongSound.play();
+                self.addClass('wrong');
+            }
+        });
+
+        shuffle(hours);
+        startSound.play();
+        play();
+      });
+    </script>
+  </body>
+</html>
