@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calendar</title>
+	<style type="text/css">
+		body {
+			background-color: #e4e8e8;
+			font-family: monospace;
+		}
+		.lines {
+			position: absolute;
+			background-color: #ffffff;
+			box-shadow: 0 0 2px #888888;
+		}
+		.h-lines {
+			position: absolute;
+			color: #ffffff;
+			width: 10px;
+			height: 10px;
+			font-size: 14px;
+		}
+		.arrow-left {
+			width: 0;
+			height: 0;
+			border-top: 8px solid transparent;
+			border-bottom: 8px solid transparent;
+			border-right: 8px solid #c9798a;
+			float: left;
+		}
+		.arrow-right {
+			width: 0;
+			height: 0;
+			border-top: 8px solid transparent;
+			border-bottom: 8px solid transparent;
+			border-left: 8px solid #c9798a;
+			float: left;
+		}
+		.pause-bar {
+			width: 5px;
+			height: 20px;
+			background-color: #c9798a;
+			margin-right: 3px;
+			float: left;
+		}
+		.pause-bar:last-child {
+			margin-right: 0;
+		}
+		#calendar {
+			position: absolute;
+			top: calc(50% - 120px);
+			left: calc(50% - 250px);
+			width: 500px;
+			box-shadow: 0 2px 5px #c5c5c5;
+			background-color: #ffffff;
+			color: #212121;
+			padding-bottom: 20px;
+			border-radius: 5px;
+		}
+		#month {
+			font-size: 36px;
+			float: left;
+			padding: 15px 15px 0 15px;
+		}
+		#day {
+			font-size: 36px;
+			padding: 15px 0 0 15px;
+		}
+		#year {
+			padding-left: 15px;
+			font-size: 24px;
+			color: #bdbdbd;
+		}
+		#quote {
+			padding: 55px 0 0 15px;
+			color: #424242;
+		}
+		#clock {
+			position: absolute;
+			top: -60px;
+			right: 30px;
+			width: 150px;
+			height: 150px;
+			border-radius: 50%;
+			border: 15px solid #ffffff;
+			background-color: #c9798a;
+			box-shadow: 0 2px 5px #c5c5c5;
+		}
+		#hour-line {
+			top: calc(50% - 3px);
+			left: calc(50% - 3px);
+			width: 50px;
+			height: 6px;
+			transform-origin: 3px;
+		}
+		#minute-line {
+			top: calc(50% - 2px);
+			left: calc(50% - 2px);
+			width: 55px;
+			height: 4px;
+			transform-origin: 2px;
+		}
+		#second-line {
+			top: calc(50% - 1px);
+			left: calc(50% - 1px);
+			width: 70px;
+			height: 2px;
+			transform-origin: 1px;
+		}
+		#point {
+			top: calc(50% - 7px);
+			left: calc(50% - 7px);
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+		}
+		#h-12 {
+			top: 5px;
+			left: calc(50% - 5px);
+			text-align: center;
+			vertical-align: text-top;
+		}
+		#h-12:before {
+			content: "12";
+		}
+		#player {
+			position: absolute;
+			bottom: 50px;
+			left: 15px;
+		}
+		#prev {
+			float: left;
+			margin-right: 10px;
+			margin-top: 4px;
+			cursor: pointer;
+		}
+		#play {
+			float: left;
+			margin-right: 10px;
+			background-color: #c9798a;
+			width: 25px;
+			height: 25px;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+		#play .arrow-right {
+			border-left-color: #ffffff;
+			margin-left: 10px;
+			margin-top: 4px;
+		}
+		#pause {
+			float: left;
+			margin-top: 2px;
+			margin-right: 16px;
+			margin-left: 6px;
+			display: none;
+			cursor: pointer;
+		}
+		#next {
+			float: left;
+			margin-top: 4px;
+			margin-right: 10px;
+			cursor: pointer;
+		}
+		#song-name {
+			float: left;
+			font-size: 16px;
+			line-height: 25px;
+			text-transform: uppercase;
+			color: #a5a5a5;
+			cursor: pointer;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 190px;
+		}
+	</style>
+</head>
+<body>
+	<div id="calendar">
+			<div id="date">
+				<div id="month">September</div>
+				<div id="day">01</div>
+				<div id="year">2017</div>
+				<div id="quote">The best preparation for tomorrow is doing your best today.</div>
+			</div>
+			<div id="clock">
+				<div id="h-12" class="h-lines"></div>
+				<div id="hour-line" class="lines"></div>
+				<div id="minute-line" class="lines"></div>
+				<div id="second-line" class="lines"></div>
+				<div id="point" class="lines"></div>
+			</div>
+			<div id="player">
+				<div id="prev" onclick="prevSong()">
+					<div class="arrow-left"></div>
+					<div class="arrow-left"></div>
+				</div>
+				<div id="play" onclick="play()">
+					<div class="arrow-right"></div>
+				</div>
+				<div id="pause" onclick="pause()">
+					<div class="pause-bar"></div>
+					<div class="pause-bar"></div>
+				</div>
+				<div id="next" onclick="nextSong()">
+					<div class="arrow-right"></div>
+					<div class="arrow-right"></div>
+				</div>
+				<div id="song-name"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var hourLine = document.getElementById('hour-line');
+		var minuteLine = document.getElementById('minute-line');
+		var secondLine = document.getElementById('second-line');
+		var month = document.getElementById('month');
+		var day = document.getElementById('day');
+		var year = document.getElementById('year');
+
+		function moveLines() {
+			var date = new Date();
+			hourLine.style.transform = 'rotate(' + ((date.getHours() - 3) * 30) + 'deg)';
+			minuteLine.style.transform = 'rotate(' + ((date.getMinutes() - 15) * 6) + 'deg)';
+			secondLine.style.transform = 'rotate(' + ((date.getSeconds() - 15) * 6) + 'deg)';
+		}
+		function setCalendar() {
+			var date = new Date();
+			var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+			month.innerHTML = monthNames[date.getMonth()];
+			day.innerHTML = date.getDate();
+			year.innerHTML = date.getFullYear();
+		}
+
+		// Sets for first launch time
+		moveLines();
+		setCalendar();
+
+		// Moves lines everysecond
+		setInterval(function() {
+			moveLines();
+			setCalendar();
+		}, 1000);
+	</script>
+	<script type="text/javascript">
+		var songs = [
+			{
+				name: 'Nơi này có anh',
+				singer: 'Sơn Tùng MTP',
+				src: 'Noi-Nay-Co-Anh-Son-Tung-M-TP.mp3'
+			},
+			{
+				name: 'Yêu 5',
+				singer: 'Rhymastic',
+				src: 'Yeu-5-Rhymastic.mp3'
+			},
+			{
+				name: 'Em không là duy nhất',
+				singer: 'Tóc Tiên',
+				src: 'Em-Khong-La-Duy-Nhat-Toc-Tien.mp3'
+			},
+			{
+				name: 'Đi để trở về',
+				singer: 'Soobin Hoàng Sơn',
+				src: 'Di-De-Tro-Ve-Soobin-Hoang-Son.mp3'
+			},
+			{
+				name: 'Phía sau một cô gái',
+				singer: 'Soobin Hoàng Sơn',
+				src: 'Phia-Sau-Mot-Co-Gai-Soobin-Hoang-Son.mp3'
+			}
+		];
+		var player = document.createElement('audio');
+		var playButton = document.getElementById('play');
+		var pauseButton = document.getElementById('pause');
+		var songName = document.getElementById('song-name');
+		var currentSong = 0;
+		var isPlaying = false;
+
+		player.addEventListener('ended', function() {
+			nextSong();
+		}, true);
+		function showSong() {
+			player.src = 'songs/' + songs[currentSong].src;
+			songName.innerHTML = songs[currentSong].name + ' - ' + songs[currentSong].singer;
+		}
+		function play() {
+			pauseButton.style.display = 'block';
+			playButton.style.display = 'none';
+			showSong();
+			player.play();
+			isPlaying = true;
+		}
+		function pause() {
+			pauseButton.style.display = 'none';
+			playButton.style.display = 'block';
+			player.pause();
+			isPlaying = false;
+		}
+		function nextSong() {
+			if (++currentSong === songs.length) {
+				currentSong = 0;
+			}
+			if (isPlaying) {
+				play();
+			} else {
+				showSong();
+			}
+		}
+		function prevSong() {
+			if (--currentSong === -1) {
+				currentSong = songs.length - 1;
+			}
+			if (isPlaying) {
+				play();
+			} else {
+				showSong();
+			}
+		}
+		showSong();
+	</script>
+</body>
+</html>
