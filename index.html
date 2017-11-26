@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Nguyễn Công Danh - Ứng dụng tính tiền</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <style type="text/css">
+      body {
+        padding-top: 15px;
+        padding-bottom: 15px;
+        font-size: 13px;
+      }
+      h2 {
+        width: 100%;
+      }
+      .currency {
+        text-align: right;
+      }
+      .nowrap {
+        white-space: nowrap;
+      }
+      @media print {    
+        .no-print, .no-print * {
+          display: none !important;
+        }
+        @page {
+          margin: 1cm;
+       }
+      }
+      #datatable tbody tr th:first-child .btn-sm {
+        padding: 1px 5px;
+        margin-right: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-6 font-italic">
+          <p class="my-0">NGUYỄN CÔNG DANH</p>
+          <p class="my-0">Brùa, Jơ ngây, Đông Giang, Quảng Nam</p>
+          <p class="my-0">Điện thoại: 0123.456.789</p>
+        </div>
+        <div class="col-6 font-italic">
+          <table style="float: right;">
+            <tbody>
+              <tr>
+                <td class="pr-3">Ngày lập phiếu:</td>
+                <td>Chủ Nhật, 26/11/2017</td>
+              </tr>
+              <tr>
+                <td class="pr-3">Ngày giao:</td>
+                <td>Chủ Nhật, 26/11/2017</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="row">
+            <h2 class="text-center py-3">PHIẾU GIAO HÀNG</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <table id="datatable" class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" rowspan="2">STT</th>
+                <th scope="col" rowspan="2">Danh mục</th>
+                <th class="text-center" scope="col" colspan="3">QUY CÁCH</th>
+                <th scope="col" rowspan="2">SL</th>
+                <th class="text-center" scope="col" colspan="2">KÍCH THƯỚC</th>
+                <th scope="col" rowspan="2">Đơn giá</th>
+                <th scope="col" rowspan="2">Thành tiền</th>
+              </tr>
+              <tr>
+                <th scope="col">Dài</th>
+                <th scope="col">Rộng</th>
+                <th scope="col">Mét</th>
+                <th scope="col">m²</th>
+                <th scope="col">mét tới</th>
+              </tr>
+            </thead>
+            <tbody id="list"></tbody>
+            <tbody class="no-print">
+              <tr>
+                <td colspan="10">
+                  <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#newModal">Thêm danh mục</button>
+                </td>
+              </tr>
+            </tbody>
+            <thead>
+              <tr>
+                <th scope="col" colspan="9">TỔNG CỘNG</th>
+                <th scope="col" class="main-total currency nowrap"></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div class="col-12">
+          Viết bằng chữ: <span class="main-total-text font-weight-bold"></span>
+        </div>
+      </div>
+      <div class="py-3"></div>
+      <div class="row">
+        <div class="col-12">
+          <p>Phương thức thanh toán: .......................................................................................................................</p>
+        </div>
+        <div class="col-12">
+          <p>Ghi chú: ..................................................................................................................................................</p>
+        </div>
+      </div>
+      <div class="py-3"></div>
+      <div class="row">
+        <div class="col-4 text-center">
+          <p class="mb-0">Khách hàng</p>
+          <span class= font-italic">(Ký và ghi rõ họ tên)</span>
+        </div>
+        <div class="col-4 text-center">
+          <p class="mb-0">Tài xế</p>
+          <span class= font-italic">(Ký và ghi rõ họ tên)</span>
+        </div>
+        <div class="col-4 text-center">
+          <p class="mb-0">Người lập phiếu</p>
+          <span class= font-italic">(Ký và ghi rõ họ tên)</span>
+        </div>
+      </div>
+      <div class="py-3"></div>
+      <div class="py-3"></div>
+      <div class="py-3"></div>
+      <div class="row no-print">
+        <div class="col-12 text-right">
+          <button type="button" class="pdf-it btn btn-primary">Lưu phiếu (PDF)</button>
+          <button type="button" class="save-it btn btn-primary">Lưu phiếu (ảnh)</button>
+          <button type="button" class="print-it btn btn-primary">In phiếu</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newModalLabel">Nhập danh mục mới vào phiếu</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="productName">Danh mục</label>
+              <input type="text" class="form-control" id="productName" placeholder="Tên danh mục">
+            </div>
+            <div class="form-group">
+              <label for="sizeWidth">Dài (m)</label>
+              <input type="number" class="form-control" id="sizeWidth" placeholder="Chiều dài (m)">
+            </div>
+            <div class="form-group">
+              <label for="sizeHeight">Rộng (m)</label>
+              <input type="number" class="form-control" id="sizeHeight" placeholder="Chiều rộng (m)">
+            </div>
+            <div class="form-group">
+              <label for="sizeMeter">Mét</label>
+              <input type="number" class="form-control" id="sizeMeter" placeholder="Mét (m)">
+            </div>
+            <div class="form-group">
+              <label for="productNumber">Số lượng</label>
+              <input type="text" class="form-control" id="productNumber" placeholder="Số lượng" value="1">
+            </div>
+            <div class="form-group">
+              <label for="unitPrice">Đơn giá</label>
+              <input type="text" class="form-control" id="unitPrice" placeholder="Đơn giá">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            <button type="button" class="add-it btn btn-primary">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha256-c3RzsUWg+y2XljunEQS0LqWdQ04X1D3j22fd/8JCAKw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.7/download.min.js" integrity="sha256-jO7zIwKMJTUQkptQfQMhu+uL4erqSzAd0wUfueDCuNI=" crossorigin="anonymous"></script>
+    <script type="text/javascript">(function(root){var default_numbers=" hai ba bốn năm sáu bảy tám chín";var currency="đồng";var units=("1 một"+default_numbers).split(" ");var ch="lẻ mười"+default_numbers;var tr="không một"+default_numbers;var tram=tr.split(" ");var u="2 nghìn triệu tỉ".split(" ");var chuc=ch.split(" ");function tenth(a){var sl1=units[a[1]];var sl2=chuc[a[0]];var append="";if(a[0]>0&&a[1]==5)sl1="lăm";if(a[0]>1){append=" mươi";if(a[1]==1)sl1=" mốt"}var str=sl2+""+append+" "+sl1;return str}function block_of_three(d){_a=d+"";if(d=="000")return"";switch(_a.length){case 0:return"";case 1:return units[_a];case 2:return tenth(_a);case 3:sl12="";if(_a.slice(1,3)!="00")sl12=tenth(_a.slice(1,3));sl3=tram[_a[0]]+" trăm";return sl3+" "+sl12}}function formatnumber(nStr){nStr+="";var x=nStr.split(".");var x1=x[0];var x2=x.length>1?"."+x[1]:"";var rgx=/(\d+)(\d{3})/;while(rgx.test(x1)){x1=x1.replace(rgx,"$1"+","+"$2")}return x1+x2}root.to_vietnamese=function(str){var str=parseInt(str)+"";var i=0,j=3;var arr=[];var index=str.length;if(index==0||str=="NaN")return"";var string="";while(index>=0){arr.push(str.substring(index,Math.max(index-3,0)));index-=3}for(i=arr.length-1;i>=0;i--){if(arr[i]!=""&&arr[i]!="000")string+=" "+block_of_three(arr[i])+" "+u[i]}return string.replace(/[0-9]/g,"").replace(/  /g," ")+" "+currency}})(window);</script>
+    <script type="text/javascript">
+      String.prototype.capitalize = function() {
+        return this.charAt(0).toUpperCase() + this.slice(1);
+      }
+    </script>
+    <script type="text/javascript">
+      function dataURItoBlob(dataURI) {
+        var byteString = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        var blob = new Blob([ab], {type: mimeString});
+        return blob;
+      }
+    </script>
+    <script type="text/javascript">
+      var list = [];
+      function render(list) {
+        $('table#datatable tbody#list').html(null);
+        for (var item, mv, m, price, i = 0; i < list.length; i++) {
+          item = list[i];
+          mv = null;
+          m = null;
+          price = null;
+          if (item.width && item.height) {
+            mv = item.width * item.height * item.count;
+            price = mv * item.unitPrice;
+          } else if (item.meter) {
+            m = item.meter * item.count;
+            price = m * item.unitPrice;
+          } else {
+            price = item.count * item.unitPrice;
+          }
+          var newRow = '<tr>'
+                + '<th scope="row" class="text-right nowrap"><button type="button" class="remove-it btn btn-danger btn-sm no-print" data-index="' + i + '">xóa</button>' + (i + 1) + '</th>'
+                + '<td>' + item.name + '</td>'
+                + '<td>' + item.width + '</td>'
+                + '<td>' + item.height + '</td>'
+                + '<td>' + item.meter + '</td>'
+                + '<td class="text-right">' + item.count + '</td>'
+                + '<td class="nowrap text-right">' + (mv ? (mv.toFixed(2) + ' m²') : '') + '</td>'
+                + '<td class="nowrap text-right">' + (m ? (m.toFixed(2) + ' m') : '') + '</td>'
+                + '<td class="currency nowrap">' + item.unitPrice + '</td>'
+                + '<td class="total currency nowrap">' + price + '</td>'
+              + '</tr>';
+          $('table#datatable tbody#list').append(newRow);
+        }
+        $('.currency').each(function () {
+          $(this).data('value', $(this).text());
+          $(this).text(accounting.formatMoney($(this).text(), { symbol: "₫",  format: "%v %s", precision: 0 }));
+        });
+        countTotal();
+      }
+
+      function countTotal() {
+        var total = 0;
+        $('.total').each(function () {
+          total += parseInt($(this).data('value'));
+        });
+        $('.main-total').text(accounting.formatMoney(total, { symbol: "₫",  format: "%v %s", precision: 0 }));
+        $('.main-total-text').text(to_vietnamese(total).trim().capitalize() + '.');
+        return total;
+      }
+      $(document).ready(function () {
+        $(document).on('click', '.remove-it', function () {
+          var index = parseInt($(this).data('index'));
+          list.splice(index, 1);
+          render(list);
+        });
+        $('.save-it').click(function () {
+          $('.no-print, .no-print > *').hide();
+          html2canvas(document.body, {
+            onrendered: function (canvas) {
+              $('.no-print, .no-print > *').show();
+              imageBase64 = canvas.toDataURL();
+              download(dataURItoBlob(imageBase64), 'phieu-01.png', 'image/png');
+            }
+          });
+        });
+        $('.print-it').click(function () {
+          window.print();
+        });
+        $('.add-it').click(function () {
+          var name = $('input#productName').val();
+          var width = $('input#sizeWidth').val();
+          var height = $('input#sizeHeight').val();
+          var meter = $('input#sizeMeter').val();
+          var count = $('input#productNumber').val();
+          var unitPrice = $('input#unitPrice').val();
+
+          list.push({
+            name: name,
+            width: width,
+            height: height,
+            meter: meter,
+            count: count,
+            unitPrice: unitPrice
+          });
+          console.log(list);
+          $('#newModal input').val(null);
+          $('#newModal input#productNumber').val(1);
+          $('#newModal').modal('hide');
+          render(list);
+        });
+      });
+    </script>
+  </body>
+</html>
