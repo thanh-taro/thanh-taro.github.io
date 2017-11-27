@@ -137,7 +137,6 @@
       <div class="py-3"></div>
       <div class="row no-print">
         <div class="col-12 text-right">
-          <button type="button" class="pdf-it btn btn-primary">Lưu phiếu (PDF)</button>
           <button type="button" class="save-it btn btn-primary">Lưu phiếu (ảnh)</button>
           <button type="button" class="print-it btn btn-primary">In phiếu</button>
         </div>
@@ -271,8 +270,8 @@
           html2canvas(document.body, {
             onrendered: function (canvas) {
               $('.no-print, .no-print > *').show();
-              imageBase64 = canvas.toDataURL();
-              download(dataURItoBlob(imageBase64), 'phieu-01.png', 'image/png');
+              imageBase64 = canvas.toDataURL('image/jpeg', 1.0);
+              download(dataURItoBlob(imageBase64), 'phieu-01.jpeg', 'image/jpeg');
             }
           });
         });
