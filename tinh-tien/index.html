@@ -241,13 +241,12 @@
                 + '<td class="nowrap text-right">' + (mv ? (mv.toFixed(2) + ' m²') : '') + '</td>'
                 + '<td class="nowrap text-right">' + (m ? (m.toFixed(2) + ' m') : '') + '</td>'
                 + '<td class="currency nowrap">' + item.unitPrice + '</td>'
-                + '<td class="total currency nowrap">' + price + '</td>'
+                + '<td class="total currency nowrap" data-value="' + price + '">' + price + '</td>'
               + '</tr>';
           $('table#datatable tbody#list').append(newRow);
         }
         $('.currency').each(function () {
-          $(this).data('value', $(this).text());
-          $(this).text(accounting.formatMoney($(this).text(), { symbol: "₫",  format: "%v %s", precision: 0 }));
+          $(this).text(accounting.formatMoney($(this).data('value'), { symbol: "₫",  format: "%v %s", precision: 0 }));
         });
         countTotal();
         var date = moment().format('DD/MM/YYYY');
