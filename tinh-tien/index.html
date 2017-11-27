@@ -50,7 +50,7 @@
             <tbody>
               <tr>
                 <td class="pr-3">Ngày lập phiếu:</td>
-                <td class="date-1">Chủ Nhật, 26/11/2017</td>
+                <td class="date-1"></td>
               </tr>
               <tr>
                 <td class="pr-3">Ngày giao:</td>
@@ -214,6 +214,7 @@
     </script>
     <script type="text/javascript">
       var list = [];
+      render(list);
       function render(list) {
         $('table#datatable tbody#list').html(null);
         for (var item, mv, m, price, i = 0; i < list.length; i++) {
@@ -297,7 +298,6 @@
             count: count,
             unitPrice: unitPrice
           });
-          console.log(list);
           $('#newModal input').val(null);
           $('#newModal input#productNumber').val(1);
           $('#newModal').modal('hide');
