@@ -217,7 +217,6 @@ function countTotal() {
   $('.total').each(function () {
     total += parseInt($(this).data('value'));
   });
-  console.log(total);
   $('.main-total').text(accounting.formatMoney(total, {
     symbol: "₫",
     format: "%v %s",
@@ -231,9 +230,9 @@ function countTotal() {
 
 (function () {
   $(document).on('click', '.remove-it', function () {
-    var id = parseInt($(this).data('item-id'));
+    var id = $(this).data('item-id');
     for (var i = 0; i < list.length; i++) {
-      if (items[i].id == id) {
+      if (list[i].id == id) {
         list.splice(i, 1);
         break;
       }
